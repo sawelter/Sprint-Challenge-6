@@ -5,48 +5,51 @@ import { setupWorker, rest } from "msw";
 
 const API_URL = "https://swapi.dev/api/people/";
 
-
 const App = () => {
   // Try to think through what state you'll need for this app before starting. Then build out the state properties here.
   const [characters, setCharacters] = useState([]);
+  const [planets, setPlanets] = useState([]);
 
   // Fetch characters from the API in an effect hook. Remember, anytime you have a 
   // side effect in a component, you want to think about which state and/or props it
   // should sync up with, if any.
 
+  // Fetch characters
   useEffect(() => {
     axios.get(API_URL)
-      .then( results => {
-        setCharacters(results.data);
+      .then( res => {
+        setCharacters(res.data);
       })
       .catch(err => console.error(err));
   }, []);
 
-// // 2. Describe network behavior with request handlers.
-// const worker = setupWorker(
-//   rest.get(API_URL, (req, res, ctx) => {
-//     return res(
-//       ctx.delay(1500),
-//       ctx.status(202, 'Mocked status'),
-//       ctx.json({
-//         message: 'Mocked response JSON body',
-//       }),
-//     )
-//   }),
-// )
-
-// // 3. Start request interception by starting the Service Worker.
-// worker.start()
-
-
   return (
     <div className="App">
       <h1 className="Header">Characters</h1>
-      {characters.map((element, index) =>  {
-        return <Character character={element} key={index}/>
-      })}
+      <div className="characters-container">
+        {characters.map((element, index) =>  {
+          return <Character character={element} planets={planets} key={index}/>
+        })}
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
+
+
+
+// useEffect for loop to get data person by person
+ // const characterData = [];
+    // for(let i = 1; i < dbLength; i++) {
+    //   axios.get(`${API_URL}${i}`) // loops through and gets data person by person
+    //   .then( results => {
+    //     characterData.push(results.data); // make new array of data one element by one element
+    //   })
+    //   .catch(err => console.error(err));
+    // }
+    // console.log(characterData);
+    // setCharacters(characterData); // store data in state
+    // console.log(characters);
