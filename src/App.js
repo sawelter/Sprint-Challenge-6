@@ -1,9 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import Character from "./components/Character.js"
 import axios from "axios"
+import styled from "styled-components"
 import { setupWorker, rest } from "msw";
 
 const API_URL = "https://swapi.dev/api/people/";
+
+const Characters = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+`;
+
+const Header = styled.div`
+    font-size: 4rem;
+    font-family: Orbitron, sans-serif;
+    font-weight: 600;
+    margin: 3%;
+    color:white;
+
+    @media(max-width: 800px) {
+      font-size: 2.5rem;
+    }
+`;
 
 const App = () => {
   // Try to think through what state you'll need for this app before starting. Then build out the state properties here.
@@ -25,12 +46,12 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="Header">Characters</h1>
-      <div className="characters-container">
+      <Header>Star Wars Characters</Header>
+      <Characters>
         {characters.map((element, index) =>  {
           return <Character character={element} planets={planets} key={index}/>
         })}
-      </div>
+      </Characters>
     </div>
   );
 }
